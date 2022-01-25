@@ -66,8 +66,10 @@ const App: React.FC = () => {
       <button
         onClick={() => {
           setRunning(!running);
-          runningRef.current = true;
-          runSimulation();
+          if (!running) {
+            runningRef.current = true;
+            runSimulation();
+          }
         }}
       >
         {running ? 'stop' : 'start'}
