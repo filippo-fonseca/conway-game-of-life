@@ -1,7 +1,7 @@
 import React from 'react';
 import produce from 'immer';
 
-const numRows = 50;
+const numRows = 25;
 const numCols = 50;
 
 const operations = [
@@ -64,45 +64,68 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <button
-        onClick={() => {
-          setRunning(!running);
-          if (!running) {
-            runningRef.current = true;
-            runSimulation();
-          }
-        }}
-      >
-        {running ? 'stop' : 'start'}
-      </button>
-      <button
-        onClick={() => {
-          setGrid(generateEmptyGrid());
-        }}
-      >
-        clear
-      </button>
-      <button
-        onClick={() => {
-          setGrid(() => {
-            const rows = [];
-            for (let i = 0; i < numRows; i++) {
-              rows.push(
-                Array.from(Array(numCols), () => (Math.random() > 0.7 ? 1 : 0))
-              );
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <h1 className='text-3xl font-bold'>Conway's Game of Life</h1>
+      <div className='inline-flex'>
+        <button
+          onClick={() => {
+            setRunning(!running);
+            if (!running) {
+              runningRef.current = true;
+              runSimulation();
             }
+          }}
+          className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l'
+        >
+          {running ? 'Stop Simulation' : 'Start Simulation'}
+        </button>
+        <button
+          onClick={() => {
+            setGrid(() => {
+              const rows = [];
+              for (let i = 0; i < numRows; i++) {
+                rows.push(
+                  Array.from(Array(numCols), () =>
+                    Math.random() > 0.7 ? 1 : 0
+                  )
+                );
+              }
 
-            return rows;
-          });
-        }}
-      >
-        random
-      </button>
+              return rows;
+            });
+            setRunning(!running);
+            if (!running) {
+              runningRef.current = true;
+              runSimulation();
+            }
+          }}
+          className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4'
+        >
+          Randomize
+        </button>
+        <button
+          onClick={() => {
+            setGrid(generateEmptyGrid());
+            // stop the simulation:
+            setRunning(!running);
+          }}
+          className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r'
+        >
+          Clear
+        </button>
+      </div>
       <div
         style={{
           display: 'grid',
           gridTemplateColumns: `repeat(${numCols}, 20px)`,
+          marginTop: '1rem',
         }}
       >
         {grid.map((rows, i) =>
@@ -119,13 +142,13 @@ const App: React.FC = () => {
                 width: 20,
                 height: 20,
                 backgroundColor: grid[i][k] ? 'pink' : undefined,
-                border: 'solid 1px black',
+                border: 'solid 1px gray',
               }}
             />
           ))
         )}
       </div>
-    </>
+    </div>
   );
 };
 
