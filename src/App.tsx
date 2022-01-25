@@ -89,7 +89,7 @@ const App: React.FC = () => {
             const rows = [];
             for (let i = 0; i < numRows; i++) {
               rows.push(
-                Array.from(Array(numCols), () => (Math.random() > 0.5 ? 1 : 0))
+                Array.from(Array(numCols), () => (Math.random() > 0.7 ? 1 : 0))
               );
             }
 
